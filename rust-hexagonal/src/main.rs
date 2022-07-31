@@ -10,6 +10,6 @@ fn main() {
     let product_service = ProductService::new(Box::new(product_db_adapter));
 
     let product = product_service.create("Product Exemplo", 31.0).unwrap();
-    let product = product_service.enable(product.as_ref());
+    let _product = product_service.enable(product.as_ref());
     // println!("{}", product.unwrap());
 }

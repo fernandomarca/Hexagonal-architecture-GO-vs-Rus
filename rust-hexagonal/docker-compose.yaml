@@ -7,4 +7,4 @@ services:
     ports:
       - "9002:9000"
     volumes:
-      - .:/rust/src/
+      - .:/rust
