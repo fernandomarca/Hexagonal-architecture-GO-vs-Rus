@@ -3,10 +3,7 @@ use error_stack;
 #[cfg(test)]
 use mockall::{automock, predicate::*};
 use std::fmt;
-use std::{
-    error::Error,
-    fmt::{Debug, Display},
-};
+use std::fmt::{Debug, Display};
 use uuid::Uuid;
 use validator::{Validate, ValidationError};
 
@@ -139,11 +136,23 @@ pub trait ProductPersistanceInterface {
         product: Box<dyn ProductInterface>,
     ) -> error_stack::Result<Box<dyn ProductInterface>, DbError>;
 }
+
+#[cfg_attr(test, automock)]
 pub trait ProductServiceInterface {
-    fn get(id: &str) -> Result<Box<dyn ProductInterface>, Box<dyn Error>>;
-    fn create(name: &str, price: f64) -> Result<Box<dyn ProductInterface>, Box<dyn Error>>;
-    fn enable(product: dyn ProductInterface) -> Result<Box<dyn ProductInterface>, Box<dyn Error>>;
-    fn disable(product: dyn ProductInterface) -> Result<Box<dyn ProductInterface>, Box<dyn Error>>;
+    fn get(&self, id: String) -> error_stack::Result<Box<dyn ProductInterface>, DbError>;
+    fn create(
+        &self,
+        name: &str,
+        price: f64,
+    ) -> error_stack::Result<Box<dyn ProductInterface>, DbError>;
+    fn enable(
+        &self,
+        product: Box<dyn ProductInterface>,
+    ) -> error_stack::Result<String, ProductError>;
+    fn disable(
+        &self,
+        product: Box<dyn ProductInterface>,
+    ) -> error_stack::Result<String, ProductError>;
 }
 fn validate_uuid(id: &str) -> Result<(), ValidationError> {
     let uuid = Uuid::parse_str(id);

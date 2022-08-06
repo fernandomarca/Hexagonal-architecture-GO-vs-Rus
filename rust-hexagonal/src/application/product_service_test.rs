@@ -1,6 +1,8 @@
 use error_stack::ResultExt;
 use mockall::predicate::eq;
 
+use crate::application::product::ProductServiceInterface;
+
 use super::{
     product::{MockProductInterface, MockProductPersistanceInterface, Product, ProductError},
     product_service::ProductService,
@@ -53,7 +55,7 @@ fn test_product_service_enable() {
         .save(Box::new(product))
         .change_context(ProductError("save error".to_owned()));
     //
-    let product_enabled = service.enable(product_result.unwrap().as_ref());
+    let product_enabled = service.enable(product_result.unwrap());
     assert_eq!(product_enabled.unwrap(), "enabled".to_owned());
 }
 
@@ -76,6 +78,6 @@ fn test_product_service_disable() {
         .save(Box::new(product))
         .change_context(ProductError("save error".to_owned()));
     //
-    let product_enabled = service.disable(product_result.unwrap().as_ref());
-    assert_eq!(product_enabled.unwrap(), "disabled".to_owned());
+    let product_disable = service.disable(product_result.unwrap());
+    assert_eq!(product_disable.unwrap(), "disabled".to_owned());
 }

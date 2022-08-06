@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 
-use super::product::{Product, ProductError, ProductInterface, ProductPersistanceInterface};
+use super::product::{
+    Product, ProductError, ProductInterface, ProductPersistanceInterface, ProductServiceInterface,
+};
 use crate::adapters::db::product_db::DbError;
 use error_stack::{self, ResultExt};
 
@@ -12,10 +14,13 @@ impl ProductService {
     pub fn new(persistance: Box<dyn ProductPersistanceInterface>) -> ProductService {
         ProductService { persistance }
     }
+}
+
+impl ProductServiceInterface for ProductService {
     fn get(&self, id: String) -> error_stack::Result<Box<dyn ProductInterface>, DbError> {
         self.persistance.get(&id)
     }
-    pub fn create(
+    fn create(
         &self,
         name: &str,
         price: f64,
@@ -25,9 +30,9 @@ impl ProductService {
         product.price = price;
         self.persistance.save(Box::new(product))
     }
-    pub fn enable(
+    fn enable(
         &self,
-        product: &dyn ProductInterface,
+        product: Box<dyn ProductInterface>,
     ) -> error_stack::Result<String, ProductError> {
         let result = product.enable()?;
         let product_result = self
@@ -37,9 +42,9 @@ impl ProductService {
         let status = product_result.get_status();
         Ok(status)
     }
-    pub fn disable(
+    fn disable(
         &self,
-        product: &dyn ProductInterface,
+        product: Box<dyn ProductInterface>,
     ) -> error_stack::Result<String, ProductError> {
         let result = product.disable()?;
         let product_result = self
