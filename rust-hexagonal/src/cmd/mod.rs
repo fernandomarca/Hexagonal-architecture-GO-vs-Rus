@@ -30,10 +30,6 @@ pub fn execute() -> error_stack::Result<String, CliError> {
 
     match command {
         cmmd::Command::Cli => {
-            // println!("flags action: {}", action);
-            // println!("flags pro_id: {}", product_id);
-            // println!("flags pro_name: {}", product_name);
-            // println!("flags pro_price: {}", product_price);
             let service = connection_db_factory();
             let price = product_price
                 .parse::<f64>()

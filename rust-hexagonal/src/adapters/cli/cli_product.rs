@@ -23,7 +23,6 @@ pub fn run(
 ) -> error_stack::Result<String, CliError> {
     let result = match action {
         "create" => {
-            println!("create into: {},{}", product_name, price);
             let product = service
                 .create(product_name, price)
                 .change_context(CliError("create command cli error".to_owned()))?;
@@ -42,7 +41,7 @@ pub fn run(
             let res = service
                 .enable(product)
                 .change_context(CliError("enable command cli error".to_owned()))?;
-            format!("Product {} has been enabled.", res)
+            format!("Product has been {}.", res)
         }
         "disable" => {
             let product = service
@@ -51,7 +50,7 @@ pub fn run(
             let res = service
                 .disable(product)
                 .change_context(CliError("enable command cli error".to_owned()))?;
-            format!("Product {} has been disabled.", res)
+            format!("Product has been {}.", res)
         }
         "get" => {
             let res = service
