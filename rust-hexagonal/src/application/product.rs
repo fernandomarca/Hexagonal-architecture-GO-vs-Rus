@@ -2,6 +2,7 @@ use crate::adapters::db::product_db::DbError;
 use error_stack;
 #[cfg(test)]
 use mockall::{automock, predicate::*};
+use serde::Serialize;
 use std::fmt;
 use std::fmt::{Debug, Display};
 use uuid::Uuid;
@@ -29,7 +30,7 @@ pub trait ProductInterface {
     fn get_price(&self) -> f64;
 }
 
-#[derive(Debug, PartialEq, Validate, Default)]
+#[derive(Debug, PartialEq, Validate, Default, Serialize)]
 pub struct Product {
     #[validate(custom(function = "validate_uuid", message = "invalid uuid-v4"))]
     pub id: String,

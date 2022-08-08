@@ -4,6 +4,8 @@ use structopt::StructOpt;
 pub enum Command {
     //Cli product
     Cli,
+    // web server http
+    Http,
 }
 
 #[derive(StructOpt, Debug)]
