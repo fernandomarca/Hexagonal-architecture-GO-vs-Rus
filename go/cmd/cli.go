@@ -33,7 +33,7 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(cliCmd)
-	cliCmd.Flags().StringVarP(&action, "action", "a", "enable", "Enable / Disable a product")
+	cliCmd.Flags().StringVarP(&action, "action", "a", "", "Enable / Disable a product")
 	cliCmd.Flags().StringVarP(&productId, "id", "i", "", "Product ID")
 	cliCmd.Flags().StringVarP(&productName, "product", "n", "", "Product name")
 	cliCmd.Flags().Float64VarP(&productPrice, "price", "p", 0, "Product price")
